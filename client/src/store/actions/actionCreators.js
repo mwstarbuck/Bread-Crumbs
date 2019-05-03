@@ -16,11 +16,17 @@ export const saveLocation = (lat, long) => {
         }).then(() => {
             dispatch({ type: 'SAVE', latitude: lat, longitude: long })
         })
-        // .then(response => response.json())
-        // .then(json => {
-        //     // console.log(json)
-        //     dispatch({ type: 'SAVED', location: json })
-        // })
+    }
+}
 
+export const loadLoctions = () => {
+    console.log("loading...")
+    return dispatch => {
+
+        fetch('http://localhost:8080/api/location')
+            .then(response => response.json())
+            .then(json => {
+                dispatch({ type: 'LOAD_LOC', loc: json })
+            })
     }
 }

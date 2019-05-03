@@ -2,6 +2,7 @@ const express = require('express')
 const server = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const models = require('./models')
 const PORT = 8080
 
 server.use(cors())
@@ -12,14 +13,21 @@ let coordinates = []
 server.post('/api/location', (req, res) => {
     let latitude = req.body.latitude
     let longitude = req.body.longitude
-
-    let location = {
+    let location = models.HikeRecord.build({
         latitude: latitude,
         longitude: longitude
-    }
-    coordinates.push(location)
-    console.log(coordinates)
-    res.json({ success: true, message: 'Location was added' })
+    })
+    location.save().then((savedLocation) => {
+    }).then(() => {
+        res.json({ success: true, message: "location was added" })
+    }).catch(error => res.json({ success: false, message: "location was not added" }))
+})
+
+server.get('/api/location', (req, res) => {
+    models.HikeRecord.findAll().then((locations) => {
+        res.json(locations)
+
+    })
 })
 
 server.listen(PORT, () => {

@@ -31,3 +31,9 @@
     transform: rotate(360deg);
   }
 }
+.hikeList {
+  list-style: none;
+}
+.hikeList > li {
+  margin: 10px; 
+}
